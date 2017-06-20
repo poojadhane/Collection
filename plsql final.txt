@@ -1,0 +1,135 @@
+create or replace procedure emp22(peno emp_detail22.emp_no%type) as
+
+penm emp_detail22.emp_name%type;
+pskll emp_detail22.emp_skills%type;
+pinc emp_detail22.emp_incr%type;
+
+begin
+
+select emp_name,emp_skills,emp_incr into penm,pskll,pinc from emp_detail22 where emp_no=peno;
+dbms_output.put_line('Employee no' || chr(9) || peno || chr(9)  || 'Employee name' ||  chr(9) ||penm);
+dbms_output.put_line('Skill id' || chr(9) || pskll.skill_id || chr(9)|| 'skill name'|| pskll.skill_name || 'skill rating' || pskll.rating);
+dbms_output.put_line('incr id' || pinc.incr_id || 'inc date' || pinc.incr_date || 'incr amt' || pinc.incr_amt);
+end;
+
+execute emp22(1);
+
+
+================================
+
+create or replace procedure add_vehicle(peno emp_varray11.emp_no%type,pvd vehicle_arr11) as
+begin
+insert into emp_varray11 values(1,'anu',pvd);
+end;
+/
+
+declare
+v vehicle_arr11;
+begin
+v:=vehicle_arr11(vehicle_type11('mh22','T',123));
+add_vehicle(1,v);
+end;
+
+
+
+==================================
+
+
+
+
+
+ create or replace procedure add_skills(peno empmain.emp_no%type,s skill_tab_type) as
+   begin
+   	insert into empmain values(1,'po',s);
+	exception
+	when no_data_found then
+	dbms_output.put_line('no id');
+   end;
+   /
+
+Procedure created.
+
+ declare
+   v skill_tab_type;
+   begin
+   v:=skill_tab_type(skills_type(3,'web',22));
+   add_skills(7,v);
+   end;
+   /
+
+------------------------------>>>
+
+create or replace type marks_type7 as object(subject varchar2(20),midtermmarks number,annualmarks number);
+
+create table mymarks7(marks marks_type7);
+
+insert into mymarks7 values(marks_type7('phy',45,77));
+
+insert into mymarks7 values(marks_type7('chem',99,88));
+
+select m.marks.midtermmarks,m.marks.annualmarks from mymarks7 m where subject='phy';
+
+========================================
+
+create table students2(studentname varchar2(20),rollno number,Score marks_type7);
+
+insert into students2 values('poo',1,marks_type7('bio',44,77));
+
+select s.score.midtermmarks from students2 s where s.rollno=1;
+
+update students2 s set s.score.midtermmarks=s.score.midtermmarks+5 where s.rollno=1;
+
+====================>>>
+
+create type icecream_type2 as object(flovorno number,fname varchar2(20),cost number,hastopping char(1));
+
+create table menu(menuno number,maincourse varchar2(20),desert icecream_type,colddrink char(6));
+
+
+insert into menu2 values(1,'poli',icecream_type(11,'vanilla',44,'Y'),'pepsi');
+
+
+select m.desert.cost,m.desert.fname from menu2 m where m.desert.flovorno=1;
+
+update menu2 m set m.desert.cost=m.desert.cost+5 where m.menuno=1; 
+
+
+
+
+====================
+
+create type skills_type2 as object(skill_id number,skill_name varchar2(20),skill_rating number);
+
+create type skill_tab_type2 as table of skills_type2;
+
+==================
+
+create type cust_tab2 as object(cust_id number,cust_name varchar2(20),plan_name varchar2(20));
+
+create type cust_details2 as varray(4) of cust_tab2;
+
+create table cust_tab_details2(srno number,cust_info cust_details2,cust_number number);
+
+insert into cust_tab_details2 values(1,cust_details2(cust_tab2(12,'pp','plan'),cust_tab2(18,'p','hj')),98765432);
+
+select s.srno , t.* from cust_tab_details2 s ,table(s.cust_info)t;
+
+select * from table(select cust_info from cust_tab_details2 where srno=1);
+
+==================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
